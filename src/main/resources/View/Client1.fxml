@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="rootNode" prefHeight="778.0" prefWidth="645.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.ClientController">
    <children>
-      <JFXTextArea fx:id="txtArea1" layoutX="46.0" layoutY="687.0" prefHeight="52.0" prefWidth="516.0" style="-fx-background-color: #f3e5f5; -fx-background-radius: 20;" />
+      <JFXTextArea fx:id="txtArea1" layoutX="46.0" layoutY="695.0" prefHeight="44.0" prefWidth="516.0" style="-fx-background-color: #f3e5f5; -fx-background-radius: 20;" />
       <Button fx:id="btnSend" layoutX="558.0" layoutY="687.0" mnemonicParsing="false" onAction="#btnSendOnAction" prefHeight="52.0" prefWidth="54.0" style="-fx-background-color: white;">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -31,7 +31,6 @@
          </content></ScrollPane>
       <AnchorPane prefHeight="82.0" prefWidth="645.0" style="-fx-background-color: #d500f9;">
          <children>
-            <Label fx:id="lblName" layoutX="521.0" layoutY="21.0" prefHeight="41.0" prefWidth="110.0" text="Label" textAlignment="CENTER" />
             <AnchorPane layoutX="20.0" layoutY="10.0" prefHeight="63.0" prefWidth="181.0" style="-fx-background-color: white; -fx-background-radius: 30;">
                <children>
                   <ImageView fitHeight="52.0" fitWidth="44.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
@@ -58,5 +57,34 @@
             <Image url="@../Assets/fe.png" />
          </image>
       </ImageView>
+      <AnchorPane fx:id="emojiPane" layoutX="302.0" layoutY="654.0" prefHeight="37.0" prefWidth="300.0">
+         <children>
+            <ImageView fx:id="e1" fitHeight="34.0" fitWidth="41.0" layoutX="83.0" layoutY="1.0" onMouseClicked="#e1OnAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Assets/smiling-face.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e2" fitHeight="34.0" fitWidth="41.0" layoutX="124.0" layoutY="1.0" onMouseClicked="#e2OnAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Assets/worried-face.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e3" fitHeight="34.0" fitWidth="41.0" layoutX="167.0" layoutY="2.0" onMouseClicked="#e3OnAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Assets/winking-face.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e4" fitHeight="34.0" fitWidth="41.0" layoutX="208.0" layoutY="1.0" onMouseClicked="#e4OnAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Assets/crying-face.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e5" fitHeight="34.0" fitWidth="33.0" layoutX="252.0" layoutY="4.0" onMouseClicked="#e5OnAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Assets/angry-face.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

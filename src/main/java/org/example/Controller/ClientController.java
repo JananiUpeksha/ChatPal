@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextArea;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -37,6 +38,7 @@ public class ClientController {
     public VBox vbox;
     public JFXButton btnemoji;
     public JFXButton btnImage;
+    public AnchorPane emojiPane;
     private String clientPassword;
     private Socket socket;
     private DataInputStream dataInputStream;
@@ -49,7 +51,7 @@ public class ClientController {
     }
 
     public void initialize(){
-        lblName.setText(clientName);
+        //lblName.setText(clientName);
         new Thread(() -> {
             try{
                 socket = new Socket("localhost", 3000);
@@ -91,6 +93,7 @@ public class ClientController {
         });
 
         //emoji();
+        emojiPane.setVisible(false);
     }
 
     /*private void emoji() {
@@ -116,7 +119,7 @@ public class ClientController {
             hBox.getChildren().add(textFlow);
 
             try {
-                dataOutputStream.writeUTF(clientName + "-" + msgToSend);
+                dataOutputStream.writeUTF( msgToSend+"-"+clientName);
                 dataOutputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -124,6 +127,7 @@ public class ClientController {
 
             vbox.getChildren().add(hBox);
             txtArea1.clear();
+            emojiPane.setVisible(false);
         }
     }
 
@@ -136,7 +140,7 @@ public class ClientController {
     }
 
     public void shutdown() {
-       // serverController.receiveMessage(clientName+" left.");
+        // serverController.receiveMessage(clientName+" left.");
         if (serverController != null) {
             serverController.receiveMessage(clientName + " left.");
         }
@@ -184,24 +188,6 @@ public class ClientController {
             hBox.setAlignment(Pos.CENTER_RIGHT);
 
             if (msg.startsWith("Image:")) {
-                // Extract image data from the message
-                /*String encodedImage = msg.substring("Image:".length());
-                byte[] imageData = Base64.getDecoder().decode(encodedImage);
-                ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(imageData)));
-                imageView.setFitWidth(200);
-                imageView.setPreserveRatio(true);
-
-                HBox imageHbox = new HBox(imageView);
-                imageHbox.setStyle("-fx-background-color: #ea80fc; -fx-background-radius: 15; -fx-padding: 20px 5px;");
-
-                Text senderText = new Text(clientName + ": ");
-                senderText.setStyle("-fx-font-size: 14");
-                TextFlow senderTextFlow = new TextFlow(senderText);
-
-                senderTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
-                senderTextFlow.setPadding(new Insets(5, 10, 5, 10));
-
-                hBox.getChildren().addAll(senderTextFlow, imageHbox);*/
                 String encodedImage = msg.substring("Image:".length());
                 byte[] imageData = Base64.getDecoder().decode(encodedImage);
                 ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(imageData)));
@@ -219,9 +205,30 @@ public class ClientController {
                 senderTextFlow.setPadding(new Insets(5, 10, 5, 10));
 
                 hBox.getChildren().addAll(senderTextFlow, imageHbox);
-            } else {
+            } else if (msg.startsWith("\uD83D")) {
+                String name = msg.split("-")[1];
+                String message = msg.split("-")[0];
+                // Handle emoji messages
+                Text senderText = new Text(name);
+                senderText.setStyle("-fx-font-size: 14");
+                TextFlow senderTextFlow = new TextFlow(senderText);
+
+                senderTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
+                senderTextFlow.setPadding(new Insets(5, 10, 5, 10));
+
+                Text emojiText = new Text(message);
+                emojiText.setStyle("-fx-font-size: 14");
+                TextFlow emojiTextFlow = new TextFlow(emojiText);
+
+                emojiTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
+                emojiTextFlow.setPadding(new Insets(5, 10, 5, 10));
+
+                hBox.getChildren().addAll(senderTextFlow, emojiTextFlow);
+            }else {
                 // Handle regular text messages
-                Text text = new Text(msg);
+                String message = msg.split("-")[0];
+                String name = msg.split("-")[1];
+                Text text = new Text(name+"-"+message);
                 text.setStyle("-fx-font-size: 14");
                 TextFlow textFlow = new TextFlow(text);
 
@@ -232,6 +239,7 @@ public class ClientController {
             }
 
             vbox.getChildren().add(hBox);
+            emojiPane.setVisible(false);
         });
     }
 
@@ -250,7 +258,7 @@ public class ClientController {
                 String message = "Image:" + encodedImage;
 
                 // Pass the sender's name to the sendMessage method
-                sendMessage(message, new VBox(createImageView(file)), clientName);
+                sendMessage(message, new VBox(createImageView(file)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -267,7 +275,7 @@ public class ClientController {
         return imageHbox;
     }
 
-    public void sendMessage(String message, VBox vBox, String senderName) {
+    public void sendMessage(String message, VBox vBox) {
         try {
             dataOutputStream.writeUTF(message);
             dataOutputStream.flush();
@@ -324,7 +332,10 @@ public class ClientController {
                 hBox.getChildren().add(imageHbox);
             } else {
                 // Handle regular text messages
-                Text text = new Text(senderName + ": " + message);
+                //split the message because message send to server with the sender name
+                String msg =message .split("-")[0];
+                String name = message.split("-")[1];
+                Text text = new Text( msg);
                 text.setStyle("-fx-font-size: 14");
                 TextFlow textFlow = new TextFlow(text);
 
@@ -339,5 +350,43 @@ public class ClientController {
     }
 
     public void emojiOnAction(MouseEvent mouseEvent) {
+        emojiPane.setVisible(!emojiPane.isVisible());
     }
+    @FXML
+    void e1OnAction(MouseEvent event) {
+        handleEmojiSelection("\uD83D\uDE00");
+    }
+
+    @FXML
+    void e2OnAction(MouseEvent event) {
+        handleEmojiSelection("\uD83D\uDC4D");
+    }
+
+    @FXML
+    void e3OnAction(MouseEvent event) {
+        handleEmojiSelection("\uD83D\uDE01");
+    }
+
+    @FXML
+    void e4OnAction(MouseEvent event) {
+        handleEmojiSelection("\uD83D\uDE02");
+    }
+
+    @FXML
+    void e5OnAction(MouseEvent event) {
+        handleEmojiSelection("\uD83D\uDE03");
+    }
+    private void handleEmojiSelection(String emojiUnicode) {
+        // Append the selected emoji Unicode to txtArea1
+        //txtArea1.appendText(emojiUnicode);
+        System.out.println("Client Name: " + clientName);
+        // Send the emoji Unicode as a message with sender name
+        String message = emojiUnicode+"-"+clientName;//when we send message like this we have to split that message because in the
+        //sender form we dont need name but in the recivers forms we need sender name
+        sendMessage(message, new VBox());
+
+        // Hide the emoji pane after selection
+        emojiPane.setVisible(false);
+    }
+
 }
