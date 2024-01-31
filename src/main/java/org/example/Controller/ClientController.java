@@ -146,43 +146,6 @@ public class ClientController {
         }
     }
     public void receivingMessage(String msg, VBox vbox){
-       /* Platform.runLater(() -> {
-            HBox hBox = new HBox();
-            hBox.setAlignment(Pos.CENTER_RIGHT);
-
-            if (msg.startsWith("Image:")) {
-                // Extract image data from the message
-                String encodedImage = msg.substring("Image:".length());
-                byte[] imageData = Base64.getDecoder().decode(encodedImage);
-                ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(imageData)));
-                imageView.setFitWidth(200);
-                imageView.setPreserveRatio(true);
-
-                HBox imageHbox = new HBox(imageView);
-                imageHbox.setStyle("-fx-background-color: #ea80fc; -fx-background-radius: 15; -fx-padding: 20px 5px;");
-
-                Text senderText = new Text(clientName + ": ");
-                senderText.setStyle("-fx-font-size: 14");
-                TextFlow senderTextFlow = new TextFlow(senderText);
-
-                senderTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
-                senderTextFlow.setPadding(new Insets(5, 10, 5, 10));
-
-                hBox.getChildren().add(imageHbox);
-            } else {
-                // Handle regular text messages
-                Text text = new Text(msg);
-                text.setStyle("-fx-font-size: 14");
-                TextFlow textFlow = new TextFlow(text);
-
-                textFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
-                textFlow.setPadding(new Insets(5, 10, 5, 10));
-
-                hBox.getChildren().add(textFlow);
-            }
-
-            vbox.getChildren().add(hBox);
-        });*/
         Platform.runLater(() -> {
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -197,34 +160,16 @@ public class ClientController {
                 HBox imageHbox = new HBox(imageView);
                 imageHbox.setStyle("-fx-background-color: #ea80fc; -fx-background-radius: 15; -fx-padding: 20px 5px;");
 
-                Text senderText = new Text(clientName + ": ");
+                /*Text senderText = new Text(clientName + ": ");
                 senderText.setStyle("-fx-font-size: 14");
                 TextFlow senderTextFlow = new TextFlow(senderText);
 
                 senderTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
                 senderTextFlow.setPadding(new Insets(5, 10, 5, 10));
 
-                hBox.getChildren().addAll(senderTextFlow, imageHbox);
-            } else if (msg.startsWith("\uD83D")) {
-                String name = msg.split("-")[1];
-                String message = msg.split("-")[0];
-                // Handle emoji messages
-                Text senderText = new Text(name);
-                senderText.setStyle("-fx-font-size: 14");
-                TextFlow senderTextFlow = new TextFlow(senderText);
-
-                senderTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
-                senderTextFlow.setPadding(new Insets(5, 10, 5, 10));
-
-                Text emojiText = new Text(message);
-                emojiText.setStyle("-fx-font-size: 14");
-                TextFlow emojiTextFlow = new TextFlow(emojiText);
-
-                emojiTextFlow.setStyle("-fx-background-color: #ea80fc; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
-                emojiTextFlow.setPadding(new Insets(5, 10, 5, 10));
-
-                hBox.getChildren().addAll(senderTextFlow, emojiTextFlow);
-            }else {
+                hBox.getChildren().addAll(senderTextFlow, imageHbox);*/
+                hBox.getChildren().add(imageHbox);
+        }else {
                 // Handle regular text messages
                 String message = msg.split("-")[0];
                 String name = msg.split("-")[1];
