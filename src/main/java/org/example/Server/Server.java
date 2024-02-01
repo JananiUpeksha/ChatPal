@@ -1,13 +1,11 @@
-package org.example;
+package org.example.Server;
 
-import org.example.Controller.ServerController;
+import org.example.Client.Client;
+import org.example.Client.ClientObserver;
 
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 

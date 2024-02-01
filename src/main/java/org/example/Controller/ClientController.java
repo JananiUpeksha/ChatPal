@@ -45,13 +45,12 @@ public class ClientController {
     private DataOutputStream dataOutputStream;
     private String clientName;
     private ServerController serverController;
-    public void setServerController(ServerController serverController){
+   /* public void setServerController(ServerController serverController){
         this.serverController = serverController;
 
-    }
+    }*/
 
     public void initialize(){
-        //lblName.setText(clientName);
         new Thread(() -> {
             try{
                 socket = new Socket("localhost", 3000);
@@ -68,18 +67,9 @@ public class ClientController {
 
                 while (socket.isConnected()){
                     String receivingMsg = dataInputStream.readUTF();
-                    //serverController.receiveMessage(receivingMsg);
-                    /*Platform.runLater(() -> {
-                        serverController.receiveMessage(receivingMsg);
-                    });*/
                     receivingMessage(receivingMsg,ClientController.this.vbox);
                 }
-                /*while (!socket.isClosed() && socket.isConnected()) {
-                    String receivingMsg = dataInputStream.readUTF();
-                    Platform.runLater(() -> {
-                        serverController.receiveMessage(receivingMsg);
-                    });
-                }*/
+
             }catch (IOException e){
                 System.err.println("Error connecting to the server: " + e.getMessage());
                 e.printStackTrace();
@@ -91,14 +81,9 @@ public class ClientController {
                 sp.setVvalue((Double) newValue);
             }
         });
-
-        //emoji();
         emojiPane.setVisible(false);
     }
 
-    /*private void emoji() {
-    }
-*/
     public void btnSendOnAction(ActionEvent actionEvent) {
         String msgToSend = txtArea1.getText(); // Assuming the message is in txtArea1
 
@@ -139,16 +124,17 @@ public class ClientController {
         this.clientPassword = password;
     }
 
-    public void shutdown() {
+    /*public void shutdown() {
         // serverController.receiveMessage(clientName+" left.");
         if (serverController != null) {
             serverController.receiveMessage(clientName + " left.");
         }
-    }
+    }*/
     public void receivingMessage(String msg, VBox vbox){
         Platform.runLater(() -> {
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER_RIGHT);
+            hBox.setPadding(new Insets(5,10,5,10));
 
             if (msg.startsWith("Image:")) {
                 String encodedImage = msg.substring("Image:".length());
@@ -227,37 +213,6 @@ public class ClientController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*Platform.runLater(() -> {
-            HBox hBox = new HBox();
-            hBox.setAlignment(Pos.CENTER_LEFT); // Adjust alignment as needed
-            hBox.setPadding(new Insets(5, 10, 5, 10));
-
-            if (message.startsWith("Image:")) {
-                // Extract image data from the message
-                String encodedImage = message.substring("Image:".length());
-                byte[] imageData = Base64.getDecoder().decode(encodedImage);
-                ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(imageData)));
-                imageView.setFitWidth(200);
-                imageView.setPreserveRatio(true);
-
-                HBox imageHbox = new HBox(imageView);
-                imageHbox.setStyle("-fx-background-color: #ce93d8; -fx-background-radius:15; -fx-alignment: center; -fx-padding: 20px 5px;");
-
-                hBox.getChildren().add(imageHbox);
-            } else {
-                // Handle regular text messages
-                Text text = new Text(this.clientName + ": " + message);
-                text.setStyle("-fx-font-size: 14");
-                TextFlow textFlow = new TextFlow(text);
-
-                textFlow.setStyle("-fx-background-color: #ce93d8; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 20px");
-                textFlow.setPadding(new Insets(5, 10, 5, 10));
-
-                hBox.getChildren().add(textFlow);
-            }
-
-            vbox.getChildren().add(hBox);
-        });*/
         Platform.runLater(() -> {
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER_LEFT); // Adjust alignment as needed
@@ -304,7 +259,7 @@ public class ClientController {
 
     @FXML
     void e2OnAction(MouseEvent event) {
-        handleEmojiSelection("\uD83D\uDC4D");
+        handleEmojiSelection("\uD83D\uDE03");
     }
 
     @FXML

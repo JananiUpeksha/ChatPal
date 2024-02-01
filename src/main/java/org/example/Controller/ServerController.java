@@ -1,6 +1,5 @@
 package org.example.Controller;
 
-import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -14,13 +13,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import org.example.ClientObserver;
-import org.example.Server;
+import org.example.Client.ClientObserver;
+import org.example.Server.Server;
 
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 

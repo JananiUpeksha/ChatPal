@@ -1,6 +1,6 @@
-package org.example.Controller;
+package org.example;
 
-import org.example.ServerLauncher;
+import org.example.Server.ServerLauncher;
 
 public class MainLauncher {
     public static void main(String[] args) {
